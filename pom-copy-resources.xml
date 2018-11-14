@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+
+  <modelVersion>4.0.0</modelVersion>
+  <name>Ant Run Example</name> 
+  
+  <groupId>cloud.base2.maven</groupId>
+	<artifactId>copy-resources</artifactId>
+	<version>1.0.0</version>
+	<packaging>pom</packaging>
+	
+  <build>
+  
+    <plugins>
+          <!-- Copy files from packages into the JBoss EAP folder -->
+          <plugin>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-dependency-plugin</artifactId>
+            <version>2.10</version>
+            <executions>
+              <!-- Copy the JDBC driver as a module -->
+              <execution>
+                <id>get-oracle-jdbc-package</id>
+                <!-- Bind to the process resources phase -->
+                <phase>process-resources</phase>
+                <goals>
+                  <goal>copy</goal>
+                </goals>
+                <configuration>
+                  <artifactItems>
+                    <artifactItem>
+                      <groupId>com.oracle</groupId>
+                      <artifactId>${artifact.id.oracle.ojdbc}</artifactId>
+                      <version>${version.ojdbc}</version>
+                      <outputDirectory>${jboss.home}\modules\com\oracle\main</outputDirectory>
+                    </artifactItem>
+                  </artifactItems>
+                </configuration>
+              </execution>
+              
+              <!-- Copy rh-sso-saml module files -->
+              <execution>
+                <id>get-sso-saml-module</id>
+                <!-- Bind to the process resources phase -->                
+                <phase>process-resources</phase>
+                <goals>
+                  <goal>unpack</goal>
+                </goals>
+                <configuration>
+                  <artifactItems>
+                    <artifactItem>
+                      <groupId>org.jboss.eap</groupId>
+                      <artifactId>rh-sso-saml-eap-adapter</artifactId>
+                      <version>7.1.0</version>
+                      <type>zip</type>
+                      <outputDirectory>${jboss.home}</outputDirectory>
+                    </artifactItem>
+                  </artifactItems>
+                </configuration>
+              </execution>
+            </executions>
+          </plugin>    
+    </plugins>
+  
+  
+  </build>
+  
+</project>
