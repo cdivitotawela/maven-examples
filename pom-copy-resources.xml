@@ -59,7 +59,30 @@
                 </configuration>
               </execution>
             </executions>
-          </plugin>    
+          </plugin>
+	    
+	  <!-- Running the cli command to configure keycloak -->
+          <plugin>
+            <groupId>org.wildfly.plugins</groupId>
+            <artifactId>wildfly-maven-plugin</artifactId>
+            <version>1.0.2.Final</version>
+            <executions>
+              <execution>
+                <id>configure-sso-saml-module</id>
+                <phase>process-resources</phase>
+                <goals>
+                  <goal>execute-commands</goal>
+                </goals>
+                <configuration>
+                  <execute-commands>
+                    <scripts>
+                      <script>${jboss.home}/bin/adapter-install-saml.cli</script>
+                    </scripts>
+                  </execute-commands>
+                </configuration>
+              </execution>
+            </executions>
+          </plugin>	    
     </plugins>
   
   
